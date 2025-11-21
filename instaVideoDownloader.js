@@ -8,40 +8,25 @@ const fs = require("fs");
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 // Function to extract video URL using Puppeteer
+const axios = require("axios");
+
 async function getDownloadUrl(videoUrl) {
-    const browser = await puppeteer.launch({
-        executablePath: chromium.path,
-        headless: true,
-        args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-dev-shm-usage",
-            "--disable-gpu",
-            "--disable-software-rasterizer"
-        ]
-        });
+    const options = {
+        method: 'GET',
+        url: 'https://instagram-downloader.p.rapidapi.com/instagram/',
+        params: {url: videoUrl},
+        headers: {
+            'X-RapidAPI-Key': process.env.RAPID_KEY,
+            'X-RapidAPI-Host': process.env.RAPID_HOST
+        }
+    };
 
+    const response = await axios.request(options);
 
-    const page = await browser.newPage();
-
-    await page.goto("https://saveclip.app/en", { waitUntil: "networkidle2" });
-
-    // Enter User Link
-    await page.type("input#url", videoUrl);
-    await page.click("button[type='submit']");
-
-    // Wait for result
-    await page.waitForSelector('a[title="Download Video 1"]', { timeout: 120000 });
-
-    // Extract final URL
-    const finalUrl = await page.$eval(
-        'a[title="Download Video 1"]',
-        el => el.href
-    );
-
-    await browser.close();
-    return finalUrl;
+    // API returns direct mp4 link here:
+    return response.data.media;   // This is the real MP4 link
 }
+
 
 // Download file
 async function downloadVideo(url, output) {
