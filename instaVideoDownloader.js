@@ -1,14 +1,9 @@
 const { Telegraf } = require("telegraf");
-const puppeteer = require("puppeteer-core");
-const chromium = require("chromium");
 const axios = require("axios");
 const fs = require("fs");
 
 // Telegram Bot Token
 const bot = new Telegraf(process.env.BOT_TOKEN);
-
-// Function to extract video URL using Puppeteer
-const axios = require("axios");
 
 async function getDownloadUrl(videoUrl) {
     const options = {
