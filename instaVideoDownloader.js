@@ -31,7 +31,7 @@ async function getDownloadUrl(videoUrl) {
     await page.click("button[type='submit']");
 
     // Wait for result
-    await page.waitForSelector('a[title="Download Video 1"]', { timeout: 60000 });
+    await page.waitForSelector('a[title="Download Video 1"]', { timeout: 120000 });
 
     // Extract final URL
     const finalUrl = await page.$eval(
