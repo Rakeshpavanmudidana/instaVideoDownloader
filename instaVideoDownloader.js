@@ -8,7 +8,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 async function getDownloadUrl(videoUrl) {
     const options = {
         method: 'GET',
-        url: 'https://instagram-downloader.p.rapidapi.com/instagram/',
+        url: 'https://instagram-media-downloader.p.rapidapi.com/rapid/download.php',
         params: {url: videoUrl},
         headers: {
             'X-RapidAPI-Key': process.env.RAPID_KEY,
