@@ -1,6 +1,7 @@
 const { Telegraf } = require("telegraf");
 const axios = require("axios");
 const fs = require("fs");
+require("dotenv").config();
 
 // Telegram Bot Token
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -8,7 +9,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 async function getDownloadUrl(videoUrl) {
     const options = {
         method: 'GET',
-        url: 'https://instagram-media-downloader.p.rapidapi.com/rapid/download.php',
+        url: 'https://instagram-reels-downloader-api.p.rapidapi.com/download',
         params: {url: videoUrl},
         headers: {
             'X-RapidAPI-Key': process.env.RAPID_KEY,
@@ -19,7 +20,7 @@ async function getDownloadUrl(videoUrl) {
     const response = await axios.request(options);
 
     // API returns direct mp4 link here:
-    return response.data.media;   // This is the real MP4 link
+    return response.data.data.medias[0].url;   // This is the real MP4 link
 }
 
 
